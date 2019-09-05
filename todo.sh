@@ -48,12 +48,10 @@ funcUpdateTODO(){
 				case "`cat choice.txt`" in
 				1)
 					echo "${TODOS} DONE" >> $TEMP_FILE
-					sleep 1.5
 					;;
 					
 				*)
 					echo "${TODOS}" >> $TEMP_FILE
-					sleep 1.5 
 					;;
 					
 				esac
