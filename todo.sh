@@ -7,9 +7,20 @@ TITLE="TODO LIST MANAGER"
 X="10"
 Y="20"
 trap 'echo -e $"\nPlease exit the program properly..\n"' SIGINT SIGTERM
-
  
 # function definitions - start
+funcPackageCheck(){
+	rpm -q dialog &> /dev/null
+	PKG_CHECK=`echo $?`
+
+	if [ $PKG_CHECK != "0" ]; then
+		echo "Dialog package is missing." 
+		echo "Install it first before using the script."
+		sleep 1.5
+
+		exit 127
+	fi
+}
 
 # Display an info box
 funcDisplayInfoBox(){
@@ -129,18 +140,6 @@ funcCreateTODO(){
 funcMain(){
 	clear
 
-	rpm -q dialog &> /dev/null
-	PKG_CHECK=`echo $?`
-
-	if [ $PKG_CHECK != "0" ]; then
-		echo "Dialog package is missing." 
-		echo "Install it first before using the script."
-		sleep 1.5
-
-		funcDisplayInfoBox $TITLE "GOODBYE!!!" $X $Y "3"
-		return 1
-	fi
-
 	if [ ! -d $USER_DIR ]; then
 	mkdir $USER_DIR
 	fi
@@ -182,6 +181,7 @@ funcMain(){
 # function definitions - end
 
 # beginning of the script
+funcPackageCheck
 funcDisplayInfoBox "$TITLE" "WELCOME!!!" "$X" "$Y" "2"
 RUN_SCRIPT=0
 while [ $RUN_SCRIPT -eq 0 ];
